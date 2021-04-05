@@ -2,10 +2,8 @@ import requests
 from sys import argv
 
 
-if argv[1] == 'search':
-    world = argv[3] == '--world'
-
-    raw_result = requests.get(f'https://www.swapi.tech/api/people/?name={argv[2]}')
+def search(search_string, world=False):
+    raw_result = requests.get(f'https://www.swapi.tech/api/people/?name={search_string}')
     result = raw_result.json()['result']
 
     if len(result) == 0:
@@ -36,3 +34,18 @@ if argv[1] == 'search':
                 f'On {homeworld["name"]}, 1 year on earth is {year_ratio} years and 1 day is {day_ratio} days'
 
         print(output)
+
+
+subcommand = argv[1]
+args_to_parse = argv[2:]
+if subcommand == 'search':
+    try:
+        args_to_parse.remove('--world')
+        world = True
+    except ValueError:
+        world = False
+
+    if len(args_to_parse) != 1:
+        print('Please give the name of one character to search')
+
+    search(args_to_parse[0], world)
