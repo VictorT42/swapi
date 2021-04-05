@@ -28,7 +28,7 @@ def search(search_string, world=False):
             year_ratio = '{0:.2f}'.format(int(homeworld["orbital_period"])/365)
             day_ratio = '{0:.2f}'.format(int(homeworld["rotation_period"])/24)
 
-            output += '\nHomeworld\n----------------\n' + \
+            output += '\n\nHomeworld\n----------------\n' + \
                 f'Name: {homeworld["name"]}\n' + \
                 f'Population: {homeworld["population"]}\n\n' + \
                 f'On {homeworld["name"]}, 1 year on earth is {year_ratio} years and 1 day is {day_ratio} days'
