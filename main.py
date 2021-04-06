@@ -63,29 +63,34 @@ def search(search_string, world=False, search_cache=None, homeworld_cache=None):
         print(f'\n\ncached: {last_search_timestamp}')
 
 
-subcommand = argv[1]
-args_to_parse = argv[2:]
+def main():
+    subcommand = argv[1]
+    args_to_parse = argv[2:]
 
-search_cache = sqlitedict.SqliteDict('./.cache', tablename='searches')
-homeworld_cache = sqlitedict.SqliteDict('./.cache', tablename='worlds')
+    search_cache = sqlitedict.SqliteDict('./.cache', tablename='searches')
+    homeworld_cache = sqlitedict.SqliteDict('./.cache', tablename='worlds')
 
-if subcommand == 'search':
-    try:
-        args_to_parse.remove('--world')
-        world = True
-    except ValueError:
-        world = False
+    if subcommand == 'search':
+        try:
+            args_to_parse.remove('--world')
+            world = True
+        except ValueError:
+            world = False
 
-    if len(args_to_parse) != 1:
-        print('Please give the name of one character to search')
+        if len(args_to_parse) != 1:
+            print('Please give the name of one character to search')
 
-    search(args_to_parse[0], world, search_cache, homeworld_cache)
-elif subcommand == 'cache':
-    if args_to_parse[0] == '--clean':
-        search_cache.clear()
-        search_cache.commit()
-        homeworld_cache.clear()
-        homeworld_cache.commit()
+        search(args_to_parse[0], world, search_cache, homeworld_cache)
+    elif subcommand == 'cache':
+        if args_to_parse[0] == '--clean':
+            search_cache.clear()
+            search_cache.commit()
+            homeworld_cache.clear()
+            homeworld_cache.commit()
 
-search_cache.close()
-homeworld_cache.close()
+    search_cache.close()
+    homeworld_cache.close()
+
+
+if __name__ == '__main__':
+    main()
